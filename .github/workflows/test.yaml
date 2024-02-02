@@ -66,11 +66,11 @@ jobs:
       #   run: |
       #     find ~/.config/topaz -type f
       #     find . -type f
-      -
-        name: Topaz Info & List Policies
-        run: |
-          curl -k --no-progress-meter 'https://localhost:8383/api/v2/info'
-          curl -k --no-progress-meter 'https://localhost:8383/api/v2/policies?field_mask=package_path'
+      # -
+      #   name: Topaz Info & List Policies
+      #   run: |
+      #     curl -k --no-progress-meter 'https://localhost:8383/api/v2/info'
+      #     curl -k --no-progress-meter 'https://localhost:8383/api/v2/policies?field_mask=package_path'
       -
         name: Topaz Load Manifest
         run: |
