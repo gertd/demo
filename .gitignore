@@ -7,3 +7,6 @@
 # Exclude policy build artifacts
 bundle.tar.gz
 build/
+
+cosign.key
+cosign.pub

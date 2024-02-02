@@ -45,7 +45,7 @@ jobs:
       uses: opcr-io/policy-login-action@v3
       with:
         username: ${{ steps.config.outputs.username }}
-        password: ${{ secrets.ASERTO_PUSH_KEY }}
+        password: ${{ secrets.GHCR_PUSH_KEY }}
         server: ${{ steps.config.outputs.server }}
 
     - name: Policy Build

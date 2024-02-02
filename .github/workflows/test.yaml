@@ -17,8 +17,8 @@ env:
   GH_TOKEN: ${{ github.token }}
   CONTAINER_NAME: topaz
   CONTAINER_VERSION: latest
-  POLICY_NAME: roblox
-  POLICY_IMAGE: ghcr.io/aserto-proj/roblox:latest
+  POLICY_NAME: demo
+  POLICY_IMAGE: ghcr.io/gertd/demo:0.0.0
 
 jobs:
   test:
