@@ -52,7 +52,7 @@ jobs:
       id: policy-build
       uses: opcr-io/policy-build-action@v3
       with:
-        src: rego
+        src: src
         tag: ${{ steps.config.outputs.repo }}
         revision: "$GITHUB_SHA"
       env:
