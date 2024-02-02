@@ -52,7 +52,7 @@ jobs:
       -
         name: Topaz Configure
         run: |
-          ./bin/topaz configure --policy-name=${{ env.POLICY_NAME }} --resource=${{env.POLICY_IMAGE}}
+          ./bin/topaz configure --policy-name=${{ env.POLICY_NAME }} --resource=${{env.POLICY_IMAGE}} --force
       -
         name: Topaz Start
         run: |
@@ -61,11 +61,11 @@ jobs:
         name: Topaz Health Check
         run: |
           ./bin/grpc-health-probe -addr=localhost:9494 -connect-timeout=120s -rpc-timeout=120s
-      -
-        name: Dump directory
-        run: |
-          find ~/.config/topaz -type f
-          find . -type f
+      # -
+      #   name: Dump directory
+      #   run: |
+      #     find ~/.config/topaz -type f
+      #     find . -type f
       -
         name: Topaz Info & List Policies
         run: |
@@ -74,7 +74,7 @@ jobs:
       -
         name: Topaz Load Manifest
         run: |
-          ./bin/topaz load ./model/manifest.yaml --insecure --no-check
+          ./bin/topaz manifest set ./model/manifest.yaml --insecure --no-check
       -
         name: Topaz Load Data
         run: |
