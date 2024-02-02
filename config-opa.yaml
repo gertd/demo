@@ -1,0 +1,15 @@
+services:
+  ghcr-registry:
+    url: https://ghcr.io
+    type: oci
+
+bundles:
+  authz:
+    service: ghcr-registry
+    resource: ghcr.io/gertd/demo:0.0.0
+    persist: true
+    polling:
+      min_delay_seconds: 60
+      max_delay_seconds: 120
+
+persistence_directory: ./cache
