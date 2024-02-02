@@ -1,0 +1,6 @@
+{
+    "assertions": [
+      {"check": {"object_type": "user", "object_id": "aprils@acmecorp.com", "relation": "manager", "subject_type": "user", "subject_id": "euang@acmecorp.com"}, "expected": true},
+      {"check": {"object_type": "user", "object_id": "euang@acmecorp.com", "relation": "manager", "subject_type": "user", "subject_id": "aprils@acmecorp.com"}, "expected": false}
+    ]
+  }

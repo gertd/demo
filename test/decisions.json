@@ -1,0 +1,7 @@
+{
+    "assertions": [
+      {"check_decision": {"identity_context": {"identity": "euang@acmecorp.com", "type": "IDENTITY_TYPE_SUB"}, "resource_context": {}, "policy_context": {"path": "policies.hello", "decisions": ["allowed"]}}, "expected":false},
+      {"check_decision": {"identity_context": {"identity": "euang@acmecorp.com", "type": "IDENTITY_TYPE_SUB"}, "resource_context": {}, "policy_context": {"path": "policies.hello", "decisions": ["visible"]}}, "expected":false},
+      {"check_decision": {"identity_context": {"identity": "euang@acmecorp.com", "type": "IDENTITY_TYPE_SUB"}, "resource_context": {}, "policy_context": {"path": "policies.hello", "decisions": ["enabled"]}}, "expected":false}
+    ]
+  }

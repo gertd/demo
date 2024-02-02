@@ -60,7 +60,7 @@ jobs:
       -
         name: Topaz Health Check
         run: |
-          ./bin/grpc-health-probe -addr=localhost:8484 -connect-timeout=120s -rpc-timeout=120s
+          ./bin/grpc-health-probe -addr=localhost:9494 -connect-timeout=120s -rpc-timeout=120s
       -
         name: Dump directory
         run: |
