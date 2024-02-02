@@ -152,7 +152,7 @@ persistence_directory: ./cache
 lets use the policy in topaz
 
 ```
-topaz configure -n demo -r ghcr.io/gertd/demo:0.0.0 --force
+topaz configure -n demo -r ghcr.io/gertd/demo:0 --force
 ```
 
 ```

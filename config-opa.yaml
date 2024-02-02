@@ -6,7 +6,7 @@ services:
 bundles:
   authz:
     service: ghcr-registry
-    resource: ghcr.io/gertd/demo:0.0.0
+    resource: ghcr.io/gertd/demo:0
     persist: true
     polling:
       min_delay_seconds: 60
