@@ -1,0 +1,89 @@
+name: test
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev-*
+      - release-*
+    tags:
+      - v*
+  # Run tests for all PRs
+  pull_request:
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  CONTAINER_NAME: topaz
+  CONTAINER_VERSION: latest
+  POLICY_NAME: roblox
+  POLICY_IMAGE: ghcr.io/aserto-proj/roblox:latest
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v4
+      -
+        name: Install gh CLI
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+      -
+        name: Install grpc-health-probe CLI
+        run: |
+          gh release download --repo grpc-ecosystem/grpc-health-probe --pattern "grpc_health_probe-linux-amd64" --output ./bin/grpc-health-probe --clobber
+          chmod +x ./bin/grpc-health-probe
+      -
+        name: Install topaz CLI
+        run: |
+          gh release download --repo aserto-dev/topaz --pattern "topaz_linux_x86_64.zip" --output ./ext/topaz.zip --clobber
+          unzip ./ext/topaz.zip -d bin
+      -
+        name: Topaz Install
+        run: |
+          ./bin/topaz install
+      -
+        name: Topaz Configure
+        run: |
+          ./bin/topaz configure --policy-name=${{ env.POLICY_NAME }} --resource=${{env.POLICY_IMAGE}}
+      -
+        name: Topaz Start
+        run: |
+          ./bin/topaz start --container-name=${{ env.CONTAINER_NAME }} --container-version=${{ env.CONTAINER_VERSION }} --hostname=localhost
+      -
+        name: Topaz Health Check
+        run: |
+          ./bin/grpc-health-probe -addr=localhost:8484 -connect-timeout=120s -rpc-timeout=120s
+      -
+        name: Dump directory
+        run: |
+          find ~/.config/topaz -type f
+          find . -type f
+      -
+        name: Topaz Info & List Policies
+        run: |
+          curl -k --no-progress-meter 'https://localhost:8383/api/v2/info'
+          curl -k --no-progress-meter 'https://localhost:8383/api/v2/policies?field_mask=package_path'
+      -
+        name: Topaz Load Manifest
+        run: |
+          ./bin/topaz load ./model/manifest.yaml --insecure --no-check
+      -
+        name: Topaz Load Data
+        run: |
+          ./bin/topaz import --directory=./data --insecure --no-check
+      -
+        name: Topaz Exec Test (directory)
+        run: |
+          ./bin/topaz test exec ./test/assertions.json --insecure --no-check --summary
+      -
+        name: Topaz Exec Test (authorizer)
+        run: |
+          ./bin/topaz test exec ./test/decisions.json --insecure --no-check --summary
